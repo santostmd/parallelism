@@ -16,7 +16,7 @@ Has four specific attributes:
 + Durability: The result of a commit is permanent and available to all subsequent transactions
 
 
-<br>###So, what is exactly Transactional Memory?
+###So, what is exactly Transactional Memory?
 
 - Is and abstraction for simplifying concurrent programming
 - It follows and optimistic approach:
