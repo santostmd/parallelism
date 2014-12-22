@@ -16,7 +16,7 @@ Has four specific attributes:
 + Durability: The result of a commit is permanent and available to all subsequent transactions
 
 
-###So, what is exactly Transactional Memory?
+<br>###So, what is exactly Transactional Memory?
 
 - Is and abstraction for simplifying concurrent programming
 - It follows and optimistic approach:
@@ -78,3 +78,36 @@ Calm down big boy. Let's see some approaches first.
         * Then no other concurrent transaction updated the items
     + Apply all writes and increase the version number
     + Else, abort
+
+
+###I read something about Conflict Detection... how does it work?
+
+So, there are four implementation kinds of conflict detection:
+
+
+- Eager detection of conflicts between running transactions
+	- conflict is detected between two accesses to X
+- Eager detection of conflicts. but only against committed transactions
+	- when one transaction tries to commit, the conflict is detected
+- Lazy detection of conflicts, between running transactions
+	- conflict is detected, but transactions are allowed to continue
+- Lazy detection of conflicts, but only against committed transactions
+	- One transaction may continue running even through another has committed a conflict update. Once such commit happens, the first transaction is doomed to abort and will be wasting its work.
+	
+	
+So, about this there is something important to retain: there are **read only** transactions and there are **update transactions**. A read only transaction is one which the write set has a size equals to zero ; otherwise is an update transaction.
+
+
+###And what good is makes for me to know the difference between a read only vs update transaction?
+
+
+It is usefull when you learn about MultiVersion Software TM.
+
+
+###So, what is Multiversion Software Transaction Memory?
+
+It is an implemnetation of a STM.
+
+It allows a transaction to read old values of a recently updated object, after which the transaction may serialize **before** transactions that commited earlier in physical time.
+
+This hability to "commit in the past" is particularly appealing for long-running read-only transactions, which may otherwise starve in many STM systems, because short-running peers modify data out from under them before they have a chance to finish.
