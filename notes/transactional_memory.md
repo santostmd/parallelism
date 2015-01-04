@@ -8,7 +8,7 @@
 
 A transaction is a sequence of actions that appears indivisible and instantaneously
 
-Has four specific attributes:
+It has four specific attributes:
 
 + Failure atomicity: Executes it all, or execute nothing
 + Consistency: It goes from one consistence state to anoter consistence state (assuming a bug free program)
@@ -58,7 +58,32 @@ And about the correctness issues, we can say that in TM :
 
 ###Yeah, with that we sure are getting good things... But one does not simply implement a thing like this, does it?
 
-Calm down big boy. Let's see some approaches first.
+Calm down big boy. Let's first divide the "layers" for better understanding.
+
+So, you got like 3 layers of software in a STM:
+
+- **concurrency control**
+- **version management**
+- **conflict detection**
+
+Let's see for what each layer is for.
+
+=========Unfinished==============
+
+
+####Concurrency Control
+
+The main goal of this layer is to mediate de concurrent access to data.
+
+####Version Management
+
+The main goal of this layer is to manage the tentative writes that concurrent transactions are doing (“version management”).
+
+####Conflict Detection
+
+
+=========Unfinished==============
+
 
 **Pessimist Approach**
 
@@ -93,6 +118,17 @@ So, there are four implementation kinds of conflict detection:
 	- conflict is detected, but transactions are allowed to continue
 - Lazy detection of conflicts, but only against committed transactions
 	- One transaction may continue running even through another has committed a conflict update. Once such commit happens, the first transaction is doomed to abort and will be wasting its work.
+	
+###What to do when two transactions conflict?
+
+Well, in this scenario you can:
+- Abort both transactions
+- Abort newest transaction
+- Abort older transaction
+- Abort the one that did less work
+
+It is also important to understand that differente aproaches offers different performance for different workloads.
+
 	
 	
 So, about this there is something important to retain: there are **read only** transactions and there are **update transactions**. A read only transaction is one which the write set has a size equals to zero ; otherwise is an update transaction.
